@@ -1,5 +1,6 @@
 package org.snturk.petition.model;
 
+import com.google.common.base.Strings;
 import org.snturk.petition.exceptions.InvalidIssuerException;
 
 public class Person implements Issuer {
@@ -11,11 +12,14 @@ public class Person implements Issuer {
     // TODO: Signature of the petition should be added here
 
     public Person(String firstName, String middleName, String lastName) {
-        if (firstName == null || firstName.isEmpty()) {
+        if (Strings.isNullOrEmpty(firstName)) {
             throw new InvalidIssuerException("First name cannot be null or empty");
         }
-        if (lastName == null || lastName.isEmpty()) {
+        if (Strings.isNullOrEmpty(lastName)) {
             throw new InvalidIssuerException("Last name cannot be null or empty");
+        }
+        if (Strings.isNullOrEmpty(middleName)) {
+            throw new InvalidIssuerException("Middle name cannot be null or empty, if there is no middle name, use the other constructor");
         }
         this.firstName = firstName;
         this.middleName = middleName;
@@ -23,13 +27,20 @@ public class Person implements Issuer {
     }
 
     public Person(String firstName, String lastName) {
+        if (Strings.isNullOrEmpty(firstName)) {
+            throw new InvalidIssuerException("First name cannot be null or empty");
+        }
+        if (Strings.isNullOrEmpty(lastName)) {
+            throw new InvalidIssuerException("Last name cannot be null or empty");
+        }
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
     @Override
     public String getCompleteName() {
-        return getFirstName() + " " + (getMiddleName().isEmpty() ? "" : getMiddleName()) + " " + getLastName();
+        String middle = Strings.isNullOrEmpty(getMiddleName()) ? " " : " " + getMiddleName() + " ";
+        return getFirstName() + middle + getLastName();
     }
 
     public String getFirstName() {
