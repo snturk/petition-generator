@@ -1,8 +1,8 @@
-# Petition Generator
+# 📄 Petition Generator
 
 This is a simple library to store (and generate, in future) petitions.
 
-## Installation
+## 📥 Installation
 
 TODO: Describe the installation process
 
@@ -14,7 +14,7 @@ If yu have a different application that needs another type of `Issuer`, you can 
 
 > *Tip*: `Issuer` interface has a single method, `getComplateName()` that returns the complete name of the issuer. For `Person` it returns the name and surname (and middle name if exists), and for `Organization` it returns the name of the organization and type (Shelby Ltd.).
 
-## Features to implement
+## 📝 Features to implement
 
 - [ ] Generate petition in PDF format #5
 - [ ] Generate petition in HTML format #6
@@ -23,7 +23,7 @@ If yu have a different application that needs another type of `Issuer`, you can 
 - [ ] Petitions can have a field named `feedbacks` that holds a list of feedbacks with feedback owners #9
 - [ ] (Not Sure) A petition can have `linkedPetitions` or `referencedPetitions` to other petitions
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork it
 2. Create your feature branch: `git checkout -b feature|fix/ISSUE_NUMBER/DESCRIPTION` (ex. `git checkout -b feature/5/generate-petition-in-pdf-format`)
