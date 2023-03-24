@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{name}}</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .date-field, .id-field {
+            font-size: 12px;
+        }
+
+        .id-field {
+            color: #999;
+        }
+
+        .date-field {
+            margin-top: 10px;
+        }
+
+        .heading-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .date-and-id {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .signatures {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: right;
+        }
+
+        .no-bullet-list {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Heading of Petition -->
+        <div class="date-and-id container">
+            <span class="id-field">{{id}}</span>
+            <span class="date-field">{{issuedDate}}</span>
+        </div>
+        <div class="heading-container">
+            <h2>{{title}}</h2>
+        </div>
+        <!-- End of Heading -->
+
+        <!-- Content of Petition -->
+        <div class="content">
+            <p>{{content}}</p>
+        </div>
+        <!-- End of Content -->
+
+        <!-- Signatures of Petition -->
+        <div class="signatures">
+            <h3>Signatures</h3>
+            <ul class="no-bullet-list">
+                <li>{{issuer}}</li>
+            </ul>
+        </div>
+        <!-- End of Signatures -->
+    </div>
+</body>
+</html>

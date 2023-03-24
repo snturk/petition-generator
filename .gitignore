@@ -33,3 +33,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Generated Test Resources ###
+/src/test/resources/generated.html

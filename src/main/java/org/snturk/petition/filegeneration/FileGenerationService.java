@@ -1,11 +1,12 @@
-package org.snturk.petition;
+package org.snturk.petition.filegeneration;
 
+import org.snturk.petition.PetitionModel;
 import org.snturk.petition.enums.FileType;
 
 import java.nio.file.Path;
 
 /**
- * Generates files from Petition models
+ * Generates files from PetitionModel models
  */
 public interface FileGenerationService {
 
@@ -17,10 +18,10 @@ public interface FileGenerationService {
 
     /**
      * Generates a file from the given petition model and saves it to the given path
-     * @param model Petition model
+     * @param model PetitionModel model
      * @param path Path to save the generated file
      */
-    void generateFile(Petition model, Path path);
+    void generateFile(PetitionModel model, Path path);
 
 
 }
