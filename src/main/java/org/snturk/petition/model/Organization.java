@@ -1,7 +1,7 @@
 package org.snturk.petition.model;
 
-import com.google.common.base.Strings;
 import org.snturk.petition.exceptions.InvalidIssuerException;
+import org.snturk.petition.utils.StringUtils;
 
 public class Organization implements Issuer {
 
@@ -9,17 +9,17 @@ public class Organization implements Issuer {
     private String corporationType;
 
     public Organization(String corporateName) {
-        if (Strings.isNullOrEmpty(corporateName)) {
+        if (StringUtils.isNullOrEmpty(corporateName)) {
             throw new InvalidIssuerException("Corporate name cannot be null or empty");
         }
         this.corporateName = corporateName;
     }
 
     public Organization(String corporateName, String corporationType) {
-        if (Strings.isNullOrEmpty(corporateName)) {
+        if (StringUtils.isNullOrEmpty(corporateName)) {
             throw new InvalidIssuerException("Corporate name cannot be null or empty");
         }
-        if (Strings.isNullOrEmpty(corporationType)) {
+        if (StringUtils.isNullOrEmpty(corporationType)) {
             throw new InvalidIssuerException("Corporation type cannot be null or empty, if there is no corporation type, use the other constructor");
         }
         this.corporateName = corporateName;
@@ -28,7 +28,7 @@ public class Organization implements Issuer {
 
     @Override
     public String getCompleteName() {
-        String type = Strings.isNullOrEmpty(getCorporationType()) ? "" : " (" + getCorporationType() + ")";
+        String type = StringUtils.isNullOrEmpty(getCorporationType()) ? "" : " (" + getCorporationType() + ")";
         return getCorporateName() + type;
     }
 

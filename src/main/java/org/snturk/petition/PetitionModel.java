@@ -1,17 +1,22 @@
 package org.snturk.petition;
 
-import org.immutables.value.Value;
 import jakarta.annotation.Nullable;
+import org.immutables.value.Value;
 import org.snturk.petition.enums.PetitionType;
+import org.snturk.petition.exceptions.InvalidSignatureInfoException;
 import org.snturk.petition.model.Issuer;
+import org.snturk.petition.signature.SignatureInfo;
 
 import java.io.File;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 @Value.Immutable
-@Value.Style(strictBuilder = true)
 public interface PetitionModel {
 
     /**
@@ -39,7 +44,7 @@ public interface PetitionModel {
      * Issuer or signer of the petition
      * @return
      */
-    Issuer getIssuer();
+    Set<Issuer> getIssuers();
 
     /**
      * Content of the petition
@@ -52,8 +57,8 @@ public interface PetitionModel {
      * @return
      */
     @Value.Default
-    default LocalDate getIssuedDate() {
-        return LocalDate.now();
+    default LocalDateTime getIssuedDate() {
+        return LocalDateTime.now();
     }
 
     /**
@@ -74,4 +79,46 @@ public interface PetitionModel {
      * @return
      */
     Function<PetitionModel, String> getIdGenerator();
+
+    /**
+     * Signature info list of the petition
+     */
+    List<SignatureInfo> getSignatures();
+
+    /**
+     * Returns the signers of the petition
+     */
+    default Issuer[] getSigners() {
+        if (getSignatures() == null || getSignatures().isEmpty()) {
+            return new Issuer[0];
+        }
+        List<Issuer> signers = new ArrayList<>();
+        for (SignatureInfo signatureInfo : getSignatures()) {
+            signers.addAll(List.of(signatureInfo.getIssuers()));
+        }
+
+        return signers.toArray(new Issuer[0]);
+    }
+
+    /**
+     * Checks the validity of the signature according to the following rules:
+     * 1. A petition issue date cannot be after the signature date
+     * 2. A petition cannot be signed by the same issuer multiple times
+     * 3. A petition cannot be signed by an issuer that is not in the petition issuers list
+     * @param signatureInfo SignatureInfo
+     */
+    default void checkValidity(SignatureInfo signatureInfo) {
+        if (getIssuedDate().isAfter(signatureInfo.getSignatureDate())) {
+            throw new InvalidSignatureInfoException("Petition issue date cannot be after the signature date");
+        }
+
+        if (getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
+            throw new InvalidSignatureInfoException("A petition cannot be signed by the same issuer multiple times");
+        }
+
+        if (Objects.deepEquals(getIssuers(), signatureInfo.getIssuers())) {
+            throw new InvalidSignatureInfoException("A petition cannot be signed by an issuer that is not in the petition issuers list");
+        }
+    }
+
 }
