@@ -1,6 +1,7 @@
 package org.snturk.petition.filegeneration.html;
 
 import org.snturk.petition.PetitionModel;
+import org.snturk.petition.model.Issuer;
 
 /**
  * Fills the given HTML string with the given PetitionModel
@@ -24,10 +25,30 @@ public class HTMLTemplateFiller {
         html = html.replace("{{id}}", model.getId());
         html = html.replace("{{content}}", model.getContent());
 
-        // TODO: Signatures of the issuers must be defined with order
-        // TODO: Issuers can be multiple, so we need to define a list of issuers
-        html = html.replace("{{issuer}}", model.getIssuer().getCompleteName());
+        // For each issuer, we need to add a signature to list of signatures
+        if (model.isSigned()) {
+            html = html.replace(" not-signed", " signed");
+        }
+        html = html.replace("{{signatures}}", prepareSignatureList(model));
 
         return html;
+    }
+
+    /**
+     * Prepares the signature list as <li>ISSUER_NAME</li>
+     * @param model PetitionModel model
+     * @return Prepared signature list
+     */
+    private static String prepareSignatureList(PetitionModel model) {
+        StringBuilder sb = new StringBuilder();
+
+        Issuer[] signers = model.getSigners();
+        if (signers != null) {
+            for (Issuer signer : signers) {
+                sb.append("<li>").append(signer.getCompleteName()).append("</li>");
+            }
+        }
+
+        return sb.toString();
     }
 }

@@ -1,7 +1,7 @@
 package org.snturk.petition.model;
 
-import com.google.common.base.Strings;
 import org.snturk.petition.exceptions.InvalidIssuerException;
+import org.snturk.petition.utils.StringUtils;
 
 public class Person implements Issuer {
 
@@ -12,13 +12,13 @@ public class Person implements Issuer {
     // TODO: Signature of the petition should be added here
 
     public Person(String firstName, String middleName, String lastName) {
-        if (Strings.isNullOrEmpty(firstName)) {
+        if (StringUtils.isNullOrEmpty(firstName)) {
             throw new InvalidIssuerException("First name cannot be null or empty");
         }
-        if (Strings.isNullOrEmpty(lastName)) {
+        if (StringUtils.isNullOrEmpty(lastName)) {
             throw new InvalidIssuerException("Last name cannot be null or empty");
         }
-        if (Strings.isNullOrEmpty(middleName)) {
+        if (StringUtils.isNullOrEmpty(middleName)) {
             throw new InvalidIssuerException("Middle name cannot be null or empty, if there is no middle name, use the other constructor");
         }
         this.firstName = firstName;
@@ -27,10 +27,10 @@ public class Person implements Issuer {
     }
 
     public Person(String firstName, String lastName) {
-        if (Strings.isNullOrEmpty(firstName)) {
+        if (StringUtils.isNullOrEmpty(firstName)) {
             throw new InvalidIssuerException("First name cannot be null or empty");
         }
-        if (Strings.isNullOrEmpty(lastName)) {
+        if (StringUtils.isNullOrEmpty(lastName)) {
             throw new InvalidIssuerException("Last name cannot be null or empty");
         }
         this.firstName = firstName;
@@ -39,7 +39,7 @@ public class Person implements Issuer {
 
     @Override
     public String getCompleteName() {
-        String middle = Strings.isNullOrEmpty(getMiddleName()) ? " " : " " + getMiddleName() + " ";
+        String middle = StringUtils.isNullOrEmpty(getMiddleName()) ? " " : " " + getMiddleName() + " ";
         return getFirstName() + middle + getLastName();
     }
 

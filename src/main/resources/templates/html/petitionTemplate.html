@@ -59,6 +59,10 @@
             list-style-type: none;
             padding: 0;
         }
+
+        .not-signed {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -81,10 +85,9 @@
         <!-- End of Content -->
 
         <!-- Signatures of Petition -->
-        <div class="signatures">
-            <h3>Signatures</h3>
+        <div class="signatures not-signed">
             <ul class="no-bullet-list">
-                <li>{{issuer}}</li>
+                {{signatures}}
             </ul>
         </div>
         <!-- End of Signatures -->
