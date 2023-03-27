@@ -16,6 +16,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
+/**
+ * A model that holds all core features of a petition. Also, it is used to generate petition files.
+ */
 @Value.Immutable
 public interface PetitionModel {
 
@@ -86,10 +89,17 @@ public interface PetitionModel {
     List<SignatureInfo> getSignatures();
 
     /**
+     * Returns the information whether the petition is signed or not
+     */
+    default boolean isSigned() {
+        return getSignatures() != null && !getSignatures().isEmpty();
+    }
+
+    /**
      * Returns the signers of the petition
      */
     default Issuer[] getSigners() {
-        if (getSignatures() == null || getSignatures().isEmpty()) {
+        if (isSigned()) {
             return new Issuer[0];
         }
         List<Issuer> signers = new ArrayList<>();
@@ -112,7 +122,7 @@ public interface PetitionModel {
             throw new InvalidSignatureInfoException("Petition issue date cannot be after the signature date");
         }
 
-        if (getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
+        if (!isSigned() || getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
             throw new InvalidSignatureInfoException("A petition cannot be signed by the same issuer multiple times");
         }
 
