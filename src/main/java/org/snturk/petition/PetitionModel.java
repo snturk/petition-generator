@@ -122,7 +122,7 @@ public interface PetitionModel {
             throw new InvalidSignatureInfoException("Petition issue date cannot be after the signature date");
         }
 
-        if (!isSigned() || getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
+        if (isSigned() && getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
             throw new InvalidSignatureInfoException("A petition cannot be signed by the same issuer multiple times");
         }
 

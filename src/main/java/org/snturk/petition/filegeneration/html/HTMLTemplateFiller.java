@@ -26,7 +26,7 @@ public class HTMLTemplateFiller {
         html = html.replace("{{content}}", model.getContent());
 
         // For each issuer, we need to add a signature to list of signatures
-        if (model.getSignatures() != null && !model.getSignatures().isEmpty()) {
+        if (model.isSigned()) {
             html = html.replace(" not-signed", " signed");
         }
         html = html.replace("{{signatures}}", prepareSignatureList(model));
