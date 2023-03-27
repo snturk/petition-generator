@@ -99,7 +99,7 @@ public interface PetitionModel {
      * Returns the signers of the petition
      */
     default Issuer[] getSigners() {
-        if (isSigned()) {
+        if (!isSigned()) {
             return new Issuer[0];
         }
         List<Issuer> signers = new ArrayList<>();
