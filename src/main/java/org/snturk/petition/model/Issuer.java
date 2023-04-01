@@ -7,7 +7,7 @@ public interface Issuer {
 
     /**
      * Name of the issuer, can be Name Surname or Organization Name
-     * @return
+     * @return complete name of the issuer
      */
     String getCompleteName();
 }
