@@ -1,4 +1,11 @@
-This is a sample petition content for testing purposes.
-
-The Board of Directors nominates candidates for election using various criteria including applicants’ past record of involvement with the GBCFC, commitment to cooperative principles, understanding of the co-op’s purpose and goals, and the expertise they can bring to the board. We strive to choose nominees who best meet the needs of the co-op and to give member- owners a choice of excellent candidates in each annual election. The board’s nominees are announced to the membership at least 90 days before the election. Member-owners who applied to be candidates but were not selected as nominees by the board may run for election independently by filing this petition. All candidates must be current member-owners of the co- op.
-To be placed on the ballot, complete this form, collect the required signatures from at least 25 other member-owners, and mail this petition to the address below along with a photo and your campaign statement (500 words or less) at least 60 days before the election.
+Dear fellow open-source enthusiasts,
+<br><br>
+We are gathered here today to address a critical issue that has plagued our community for far too long. We need to stop the madness and bring some much-needed sanity to our projects.
+<br>
+We are, of course, referring to the use of Comic Sans in our code.
+<br>
+Yes, we know it's a funny font, and it brings a smile to your face. But let's be honest, it's not very professional. It's time to say goodbye to the days of code looking like a grade-schooler's art project.
+<br>
+We hereby petition all open-source projects to ban Comic Sans from their codebases. We suggest that projects adopt a strict policy of using only professional-looking fonts, such as Times New Roman or Arial.
+<br>
+Let's take our coding seriously and show the world that we mean business. Say no to Comic Sans and yes to professionalism!

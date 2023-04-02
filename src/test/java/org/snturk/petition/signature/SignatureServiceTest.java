@@ -29,14 +29,20 @@ public class SignatureServiceTest {
                 .idGenerator(this::generateId)
                 .name("Test Petition")
                 .title("Test Petition Title")
-                .addIssuers(issuer)
+                .addPetitioners(issuer)
                 .content(testContent)
                 .type(PetitionType.REQUEST)
                 .issuedDate(issueDate)
                 .build();
-        var signedPetition = signatureService.performSign(petitionModelTemp, issuer);
+
+        var signatureInfo = ImmutableSignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .signedAt(LocalDateTime.now())
+                .build();
+        var signatureContext = new SignatureContext(issuer, signatureInfo);
+        var signedPetition = signatureService.performSign(petitionModelTemp, signatureContext);
         assertEquals(1, signedPetition.getSignatures().size());
-        assertEquals(1, signedPetition.getSigners().length, signedPetition.getSignatures().get(0).getIssuers().length);
+        assertEquals(1, signedPetition.getPetitioners().size(), signedPetition.getSignatures().size());
     }
 
     @Test @DisplayName("Perform Sign Test with Multiple Signers")
@@ -49,32 +55,44 @@ public class SignatureServiceTest {
                 .idGenerator(this::generateId)
                 .name("Test Petition")
                 .title("Test Petition Title")
-                .addIssuers(issuer1)
-                .addIssuers(issuer2)
+                .addPetitioners(issuer1)
+                .addPetitioners(issuer2)
                 .content(testContent)
                 .type(PetitionType.REQUEST)
                 .issuedDate(issueDate)
                 .build();
-        var signedPetition = signatureService.performSign(petitionModelTemp, issuer1);
+
+        var signatureInfo = ImmutableSignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .signedAt(LocalDateTime.now())
+                .build();
+        var signatureContext = new SignatureContext(issuer1, signatureInfo);
+        var signedPetition = signatureService.performSign(petitionModelTemp, signatureContext);
         assertEquals(1, signedPetition.getSignatures().size());
-        assertEquals(2, signedPetition.getSigners().length, signedPetition.getSignatures().get(0).getIssuers().length);
+        assertEquals(1, signedPetition.getPetitioners().size(), signedPetition.getSignatures().size());
     }
 
     @Test @DisplayName("Perform Sign Test with Invalid Date")
     void shouldPerformSignWithInvalidDate() throws IOException {
         var issuer = new Person("Muratcan", "Senturk");
         var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
-        var issueDate = LocalDateTime.now().plusDays(1);
+        var issueDate = LocalDateTime.now();
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)
                 .name("Test Petition")
                 .title("Test Petition Title")
-                .addIssuers(issuer)
+                .addPetitioners(issuer)
                 .content(testContent)
                 .type(PetitionType.REQUEST)
                 .issuedDate(issueDate)
                 .build();
-        assertThrows(InvalidSignatureInfoException.class, () -> signatureService.performSign(petitionModelTemp, issuer));
+
+        var signatureInfo = ImmutableSignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .signedAt(LocalDateTime.now().minusDays(2))
+                .build();
+        var signatureContext = new SignatureContext(issuer, signatureInfo);
+        assertThrows(InvalidSignatureInfoException.class, () -> signatureService.performSign(petitionModelTemp, signatureContext));
     }
 
     @Test @DisplayName("Perform Sign Test with Invalid Signer")
@@ -86,12 +104,18 @@ public class SignatureServiceTest {
                 .idGenerator(this::generateId)
                 .name("Test Petition")
                 .title("Test Petition Title")
-                .addIssuers(issuer)
+                .addPetitioners(issuer)
                 .content(testContent)
                 .type(PetitionType.REQUEST)
                 .issuedDate(issueDate)
                 .build();
-        assertThrows(InvalidSignatureInfoException.class, () -> signatureService.performSign(petitionModelTemp, new Person("John", "Doe")));
+
+        var signatureInfo = ImmutableSignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .signedAt(LocalDateTime.now())
+                .build();
+        var wrongSignatureContext = new SignatureContext(new Person("John", "Doe"), signatureInfo);
+        assertThrows(InvalidSignatureInfoException.class, () -> signatureService.performSign(petitionModelTemp, wrongSignatureContext));
     }
 
     private String generateId(PetitionModel model) {
