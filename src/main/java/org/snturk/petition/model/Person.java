@@ -9,8 +9,6 @@ public class Person implements Issuer {
     private String middleName;
     private String lastName;
 
-    // TODO: Signature of the petition should be added here
-
     public Person(String firstName, String middleName, String lastName) {
         if (StringUtils.isNullOrEmpty(firstName)) {
             throw new InvalidIssuerException("First name cannot be null or empty");

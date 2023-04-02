@@ -2,23 +2,26 @@ package org.snturk.petition.signature;
 
 import org.snturk.petition.ImmutablePetitionModel;
 import org.snturk.petition.PetitionModel;
-import org.snturk.petition.model.Issuer;
-
-import java.time.LocalDateTime;
+import org.snturk.petition.utils.SignatureUtils;
 
 /**
  * A service that handles the signature operations of a petition.
  */
 public class SignatureService {
 
-    public PetitionModel performSign(PetitionModel petitionModel, Issuer... signers) {
-        LocalDateTime signatureDate = LocalDateTime.now();
-        SignatureInfo signatureInfo = new SignatureInfo(signers, signatureDate);
+    /**
+     * Performs the signature operation on the petition.
+     * @param petitionModel PetitionModel
+     * @param signers SignatureContext
+     * @return PetitionModel
+     */
+    public PetitionModel performSign(PetitionModel petitionModel, SignatureContext ...signers) {
 
-        petitionModel.checkValidity(signatureInfo);
+        SignatureUtils.validateSignature(petitionModel, signers);
+
         return ImmutablePetitionModel.builder()
                 .from(petitionModel)
-                .addSignatures(signatureInfo)
+                .addSignatures(signers)
                 .build();
     }
 }

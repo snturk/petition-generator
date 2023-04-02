@@ -1,7 +1,8 @@
 package org.snturk.petition.model;
 
 /**
- * Issuer or signer of the petition, it can be a person or an organization
+ * Issuer or signer of the petition, it can be a person or an organization.
+ * Only classes that implement Issuer can sign a petition.
  */
 public interface Issuer {
 

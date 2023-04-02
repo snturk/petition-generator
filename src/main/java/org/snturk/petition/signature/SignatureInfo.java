@@ -1,28 +1,28 @@
 package org.snturk.petition.signature;
 
-import org.snturk.petition.model.Issuer;
+import org.immutables.value.Value;
 
 import java.time.LocalDateTime;
 
 /**
  * A model that holds the signature information of a petition.
- * A Petition can be signed by multiple issuers.
  */
-public class SignatureInfo {
+@Value.Immutable
+public interface SignatureInfo {
 
-    private Issuer[] issuers;
-    private LocalDateTime signatureDate;
-
-    public SignatureInfo(Issuer[] issuers, LocalDateTime signatureDate) {
-        this.issuers = issuers;
-        this.signatureDate = signatureDate;
+    static ImmutableSignatureInfo.Builder builder() {
+        return ImmutableSignatureInfo.builder();
     }
 
-    public Issuer[] getIssuers() {
-        return issuers;
-    }
+    /**
+     * Type of the applied signature
+     * @return
+     */
+   SignatureType getSignatureType();
 
-    public LocalDateTime getSignatureDate() {
-        return signatureDate;
-    }
+    /**
+     * Signed date information of the signature
+     * @return
+     */
+   LocalDateTime getSignedAt();
 }

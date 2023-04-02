@@ -3,17 +3,13 @@ package org.snturk.petition;
 import jakarta.annotation.Nullable;
 import org.immutables.value.Value;
 import org.snturk.petition.enums.PetitionType;
-import org.snturk.petition.exceptions.InvalidSignatureInfoException;
+import org.snturk.petition.model.Feedback;
 import org.snturk.petition.model.Issuer;
-import org.snturk.petition.model.Step;
-import org.snturk.petition.signature.SignatureInfo;
+import org.snturk.petition.signature.SignatureContext;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -49,20 +45,19 @@ public interface PetitionModel {
     String getTitle();
 
     /**
-     * Issuer or signer of the petition
-     * @return
+     * Petitioner(s) of the petition
      */
-    Set<Issuer> getIssuers();
+    List<Issuer> getPetitioners();
 
     /**
      * Content of the petition
-     * @return
+     * @return String
      */
     String getContent();
 
     /**
      * Date of the petition
-     * @return
+     * @return LocalDateTime
      */
     @Value.Default
     default LocalDateTime getIssuedDate() {
@@ -78,77 +73,25 @@ public interface PetitionModel {
 
     /**
      * Related attachments of the petition, key is the name of the attachment, value is the java.io.File object
-     * @return
+     * @return Initial attachments of the petition
      */
-    @Nullable Map<String, File> getAttachments();
+    @Nullable Set<File> getAttachments();
 
     /**
      * Function to generate id of the petition
-     * @return
+     * @return Function that takes a PetitionModel and returns a String as id
      */
     Function<PetitionModel, String> getIdGenerator();
 
     /**
-     * Signature info list of the petition
-     */
-    List<SignatureInfo> getSignatures();
-
-    /**
      * Unmodifiable list of the petition steps
      */
-    List<Step> getSteps();
+    List<Feedback> getFeedbacks();
 
     /**
-     * Current step of the petition
+     * Signature context of the petition, hold details of the signature process that is applied to the petition when it is signed by the petitioners.
+     * Not all petitions require signature, so this field can be null. Also, Feedbacks holds their own signature context.
      */
-    default Step getCurrentStep() {
-        if (getSteps() == null || getSteps().isEmpty()) {
-            throw new IllegalStateException("Petition has no steps");
-        }
-        return getSteps().get(getSteps().size() - 1);
-    }
-
-    /**
-     * Returns the information whether the petition is signed or not
-     */
-    default boolean isSigned() {
-        return getSignatures() != null && !getSignatures().isEmpty();
-    }
-
-    /**
-     * Returns the signers of the petition
-     */
-    default Issuer[] getSigners() {
-        if (!isSigned()) {
-            return new Issuer[0];
-        }
-        List<Issuer> signers = new ArrayList<>();
-        for (SignatureInfo signatureInfo : getSignatures()) {
-            signers.addAll(List.of(signatureInfo.getIssuers()));
-        }
-
-        return signers.toArray(new Issuer[0]);
-    }
-
-    /**
-     * Checks the validity of the signature according to the following rules:
-     * 1. A petition issue date cannot be after the signature date
-     * 2. A petition cannot be signed by the same issuer multiple times
-     * 3. A petition cannot be signed by an issuer that is not in the petition issuers list
-     * @param signatureInfo SignatureInfo
-     */
-    default void checkValidity(SignatureInfo signatureInfo) {
-        if (getIssuedDate().isAfter(signatureInfo.getSignatureDate())) {
-            throw new InvalidSignatureInfoException("Petition issue date cannot be after the signature date");
-        }
-
-        if (isSigned() && getSignatures().stream().anyMatch(s -> s.getIssuers().equals(signatureInfo.getIssuers()))) {
-            throw new InvalidSignatureInfoException("A petition cannot be signed by the same issuer multiple times");
-        }
-
-        if (Objects.deepEquals(getIssuers(), signatureInfo.getIssuers())) {
-            throw new InvalidSignatureInfoException("A petition cannot be signed by an issuer that is not in the petition issuers list");
-        }
-    }
+    @Nullable Set<SignatureContext> getSignatures();
 
 }
