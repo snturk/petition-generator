@@ -47,12 +47,11 @@
         }
 
         .signatures {
-            position: fixed;
-            bottom: 20px;
             width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 30px auto 0;
             text-align: right;
+            font-size: 12px;
         }
 
         .no-bullet-list {
@@ -62,6 +61,19 @@
 
         .not-signed {
             display: none;
+        }
+
+        .signature {
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .issuer-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
         }
     </style>
 </head>
