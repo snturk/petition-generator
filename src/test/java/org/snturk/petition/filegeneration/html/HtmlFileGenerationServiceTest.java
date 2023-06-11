@@ -19,16 +19,16 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HTMLFileGenerationServiceTest {
+class HtmlFileGenerationServiceTest {
 
-    private HTMLFileGenerationService htmlFileGenerationService = new HTMLFileGenerationService();
+    private HtmlFileGenerationService htmlFileGenerationService = new HtmlFileGenerationService();
     private SignatureService signatureService = new SignatureService();
 
     @Test @DisplayName("HTML File Generation Service Test")
     void shouldGenerateHTMLFile() throws IOException {
         // First we need to create a petition model
         var issuer = new Person("Muratcan", "Senturk");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.of(2020, 1, 1, 12, 0, 0);
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)
@@ -64,7 +64,7 @@ public class HTMLFileGenerationServiceTest {
         // First we need to create a petition model
         var issuer1 = new Person("Muratcan", "Senturk");
         var issuer2 = new Person("John", "Doe");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.of(2020, 1, 1, 12, 0, 0);
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)

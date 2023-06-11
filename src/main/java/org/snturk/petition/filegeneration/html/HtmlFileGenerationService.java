@@ -14,7 +14,7 @@ import java.nio.file.Path;
 /**
  * A service that generates html files from a given petition model to a given path.
  */
-public class HTMLFileGenerationService implements FileGenerationService {
+public class HtmlFileGenerationService implements FileGenerationService {
 
     public static final FileGenerationConfig CONFIG = new FileGenerationConfig(FileType.HTML);
 

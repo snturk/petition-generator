@@ -12,7 +12,7 @@ import java.nio.file.Path;
 public class FileGenerationConfig {
 
     private static final String PREFIX = "petition-generator.file-generation.";
-    private static final String DEFAULT_TEMPLATE_PATH = "src/main/resources/templates/html/petitionTemplate.html";
+    private static final String DEFAULT_TEMPLATE_PATH = "src/main/resources/templates/%s/petitionTemplate.%s";
 
     private final FileType fileType;
 
@@ -33,8 +33,10 @@ public class FileGenerationConfig {
      * @return Path of the template file
      */
     public Path getTemplatePath() {
-        String templatePath = CommonConfiguration.getProperty(PREFIX + fileType.name().toLowerCase() + ".template-path", DEFAULT_TEMPLATE_PATH);
+        String format = getFileType().name().toLowerCase();
+        String templatePath = String.format(DEFAULT_TEMPLATE_PATH, format, format);
+        String templatePathFull = CommonConfiguration.getProperty(PREFIX + format + ".template-path", templatePath);
 
-        return Path.of(templatePath);
+        return Path.of(templatePathFull);
     }
 }
