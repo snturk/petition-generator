@@ -60,7 +60,7 @@ class PdfFileGenerationServiceTest {
         var signatureContext1 = new SignatureContext(issuer1, signatureInfo);
         var petitionModel = signatureService.performSign(petitionModelTemp, signatureContext1);
 
-        Path path = Path.of("src/test/resources/testGenerated.pdf");
+        Path path = Path.of("src/test/resources/generated.pdf");
         pdfFileGenerationService.generateFile(petitionModel, path);
 
         // Assertions

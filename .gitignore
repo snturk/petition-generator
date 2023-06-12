@@ -36,3 +36,4 @@ build/
 
 ### Generated Test Resources ###
 /src/test/resources/generated.html
+/src/test/resources/generated.pdf

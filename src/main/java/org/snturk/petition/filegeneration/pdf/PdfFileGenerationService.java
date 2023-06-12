@@ -4,7 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.snturk.petition.PetitionModel;
 import org.snturk.petition.enums.FileType;
-import org.snturk.petition.filegeneration.FileGenerationConfig;
 import org.snturk.petition.filegeneration.FileGenerationService;
 import org.snturk.petition.filegeneration.html.HtmlFileGenerationService;
 import org.xhtmlrenderer.layout.SharedContext;
@@ -17,7 +16,6 @@ import java.nio.file.Path;
 
 public class PdfFileGenerationService implements FileGenerationService {
 
-    public static final FileGenerationConfig CONFIG = new FileGenerationConfig(FileType.PDF);
     private final HtmlFileGenerationService htmlFileGenerationService = new HtmlFileGenerationService();
 
     @Override
