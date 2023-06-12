@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SignatureServiceTest {
+class SignatureServiceTest {
 
     private final SignatureService signatureService = new SignatureService();
 
     @Test @DisplayName("Perform Sign Test with Single Signer")
     void shouldPerformSignWithSingleSigner() throws IOException {
         var issuer = new Person("Muratcan", "Senturk");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.of(2020, 1, 1, 12, 0, 0);
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)
@@ -49,7 +49,7 @@ public class SignatureServiceTest {
     void shouldPerformSignWithMultipleSigners() throws IOException {
         var issuer1 = new Person("Muratcan", "Senturk");
         var issuer2 = new Person("John", "Doe");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.of(2020, 1, 1, 12, 0, 0);
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)
@@ -75,7 +75,7 @@ public class SignatureServiceTest {
     @Test @DisplayName("Perform Sign Test with Invalid Date")
     void shouldPerformSignWithInvalidDate() throws IOException {
         var issuer = new Person("Muratcan", "Senturk");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.now();
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)
@@ -98,7 +98,7 @@ public class SignatureServiceTest {
     @Test @DisplayName("Perform Sign Test with Invalid Signer")
     void shouldPerformSignWithInvalidSigner() throws IOException {
         var issuer = new Person("Muratcan", "Senturk");
-        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContent.txt"));
+        var testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
         var issueDate = LocalDateTime.now().plusDays(1);
         var petitionModelTemp = ImmutablePetitionModel.builder()
                 .idGenerator(this::generateId)

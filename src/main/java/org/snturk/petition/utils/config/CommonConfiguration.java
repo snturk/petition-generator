@@ -11,6 +11,10 @@ public class CommonConfiguration {
 
     public static final Logger LOGGER = Logger.getLogger(CommonConfiguration.class.getName());
 
+    private CommonConfiguration() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Get the property value from the properties file
      * @param key Key of the property
@@ -23,7 +27,7 @@ public class CommonConfiguration {
             if (properties.containsKey(key)) {
                 return properties.getProperty(key);
             }
-            LOGGER.warning("Property " + key + " is not found in the properties file. Default value will be used.");
+            LOGGER.warning(String.format("Property %s is not found in the properties file. Default value will be used.", key));
             return defaultValue;
         } catch (IOException e) {
             e.printStackTrace();

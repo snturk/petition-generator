@@ -3,7 +3,6 @@ package org.snturk.petition.filegeneration.html;
 import org.apache.commons.io.FileUtils;
 import org.snturk.petition.PetitionModel;
 import org.snturk.petition.enums.FileType;
-import org.snturk.petition.filegeneration.FileGenerationConfig;
 import org.snturk.petition.filegeneration.FileGenerationService;
 
 import java.io.File;
@@ -14,9 +13,7 @@ import java.nio.file.Path;
 /**
  * A service that generates html files from a given petition model to a given path.
  */
-public class HTMLFileGenerationService implements FileGenerationService {
-
-    public static final FileGenerationConfig CONFIG = new FileGenerationConfig(FileType.HTML);
+public class HtmlFileGenerationService implements FileGenerationService {
 
     @Override
     public FileType getFileType() {
@@ -25,7 +22,7 @@ public class HTMLFileGenerationService implements FileGenerationService {
 
     @Override
     public void generateFile(PetitionModel model, Path path) {
-        File templateFile = CONFIG.getTemplatePath().toFile();
+        File templateFile = getTemplatePath().toFile();
         String html = prepareTemplate(templateFile, model);
         File htmlFile = path.toFile();
 
