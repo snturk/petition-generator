@@ -3,7 +3,7 @@ package org.snturk.petition;
 import jakarta.annotation.Nullable;
 import org.immutables.value.Value;
 import org.snturk.petition.enums.PetitionType;
-import org.snturk.petition.model.Feedback;
+import org.snturk.petition.feedback.FeedbackModel;
 import org.snturk.petition.model.Issuer;
 import org.snturk.petition.signature.SignatureContext;
 
@@ -86,7 +86,8 @@ public interface PetitionModel {
     /**
      * Unmodifiable list of the petition steps
      */
-    List<Feedback> getFeedbacks();
+    @Nullable
+    List<FeedbackModel> getFeedbacks();
 
     /**
      * Signature context of the petition, hold details of the signature process that is applied to the petition when it is signed by the petitioners.
