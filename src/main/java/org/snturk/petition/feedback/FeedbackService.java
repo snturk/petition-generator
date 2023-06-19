@@ -41,14 +41,16 @@ public class FeedbackService {
         }
 
         // A feedback cannot be signed by a context that generated before the petition
-        feedback.getSignatureContext().forEach(signatureContext -> {
-            if (!petition.getIssuedDate().isBefore(signatureContext.signatureInfo().getSignedAt())) {
-                throw new InvalidFeedbackException("A feedback cannot be signed by a context that generated before the petition", feedback);
-            }
-        });
+        if (feedback.getSignatureContext() != null) {
+            feedback.getSignatureContext().forEach(signatureContext -> {
+                if (!petition.getIssuedDate().isBefore(signatureContext.signatureInfo().getSignedAt())) {
+                    throw new InvalidFeedbackException("A feedback cannot be signed by a context that generated before the petition", feedback);
+                }
+            });
+        }
 
         // A feedback cannot be added to a petition that is already contains the feedback
-        if (petition.getFeedbacks().contains(feedback)) {
+        if (petition.getFeedbacks() != null && petition.getFeedbacks().contains(feedback)) {
             throw new InvalidFeedbackException("A feedback cannot be added to a petition that is already contains the feedback", feedback);
         }
     }
