@@ -24,5 +24,8 @@ public interface SignatureInfo {
      * Signed date information of the signature
      * @return
      */
-   LocalDateTime getSignedAt();
+    @Value.Default
+   default LocalDateTime getSignedAt() {
+       return LocalDateTime.now();
+   }
 }
