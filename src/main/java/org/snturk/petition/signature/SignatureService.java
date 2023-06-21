@@ -39,7 +39,6 @@ public class SignatureService {
 
         return FeedbackModel.builder()
                 .from(feedbackModel)
-                .addAllSignatureContext(List.of(signers))
-                .build();
+                .build().withSignatureContext(List.of(signers));
     }
 }

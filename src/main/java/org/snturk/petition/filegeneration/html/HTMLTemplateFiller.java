@@ -3,9 +3,11 @@ package org.snturk.petition.filegeneration.html;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snturk.petition.PetitionModel;
+import org.snturk.petition.feedback.FeedbackModel;
 import org.snturk.petition.model.Issuer;
 import org.snturk.petition.signature.SignatureContext;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +47,7 @@ public class HTMLTemplateFiller {
         }
 
         if (html.contains("{{issuedDate}}")) {
-            html = html.replace("{{issuedDate}}", model.getIssuedDate().toString());
+            html = html.replace("{{issuedDate}}", model.getIssuedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
         } else {
             LOGGER.warn("HTML does not contain {{issuedDate}}");
         }
@@ -69,6 +71,13 @@ public class HTMLTemplateFiller {
             LOGGER.info("Petition is not signed, no signatures found");
         }
         html = html.replace("{{signatures}}", prepareSignatureList(model));
+
+        if (!Objects.requireNonNull(model.getFeedbacks()).isEmpty()) {
+            html = html.replace(" no-feedback", " has-feedback");
+        } else {
+            LOGGER.info("Petition has no feedback, no feedbacks found");
+        }
+        html = html.replace("{{feedbacks}}", prepareFeedbackList(model));
 
         return html;
     }
@@ -95,6 +104,12 @@ public class HTMLTemplateFiller {
         return sb.toString();
     }
 
+    /**
+     * Returns the signature of the given issuer
+     * @param model PetitionModel model
+     * @param issuer Issuer
+     * @return SignatureContext of the given issuer
+     */
     private static SignatureContext getSignatureOfIssuer(PetitionModel model, Issuer issuer) {
         for (SignatureContext signatureContext : model.getSignatures()) {
             if (signatureContext.issuer().equals(issuer)) {
@@ -102,5 +117,26 @@ public class HTMLTemplateFiller {
             }
         }
         return null;
+    }
+
+    private static String prepareFeedbackList(PetitionModel model) {
+        StringBuilder sb = new StringBuilder();
+        List<FeedbackModel> feedbackModels = model.getFeedbacks();
+
+        for (FeedbackModel feedbackModel : feedbackModels) {
+            sb.append("<div class=\"feedback\">");
+            sb.append("<li>").append(feedbackModel.getContent()).append("</li>");
+            sb.append("<li>").append("Issued at ").append(feedbackModel.getIssuedDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))).append("</li>");
+            sb.append("<li>").append(feedbackModel.getIssuer().getCompleteName()).append("</li>");
+
+            if (feedbackModel.getSignatureContext() != null) {
+                for (SignatureContext signatureContext : feedbackModel.getSignatureContext()) {
+                    sb.append("<li class=\"signature\">").append(signatureContext.signatureInfo().getSignatureType().getTemplateString(model, signatureContext)).append("</li>");
+                }
+            }
+            sb.append("</div>");
+        }
+
+        return sb.toString();
     }
 }

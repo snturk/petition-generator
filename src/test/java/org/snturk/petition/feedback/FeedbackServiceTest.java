@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.snturk.petition.PetitionModel;
 import org.snturk.petition.enums.PetitionType;
+import org.snturk.petition.filegeneration.html.HtmlFileGenerationService;
 import org.snturk.petition.model.Person;
 import org.snturk.petition.signature.ImmutableSignatureInfo;
 import org.snturk.petition.signature.SignatureContext;
@@ -24,6 +25,7 @@ class FeedbackServiceTest {
 
     private final FeedbackService feedbackService = new FeedbackService();
     private final SignatureService signatureService = new SignatureService();
+    private final HtmlFileGenerationService htmlFileGenerationService = new HtmlFileGenerationService();
 
     @Test @DisplayName("Perform Sign Test with Single Signer on Feedback")
     void shouldSignFeedbackWithSingleSigner() {
@@ -85,6 +87,60 @@ class FeedbackServiceTest {
         assertNotNull(feedbackedPetition.getFeedbacks());
         assertEquals(1, feedbackedPetition.getFeedbacks().size());
         assertEquals(feedbackedPetition.getFeedbacks().get(0).getPetitionId(), signedPetition.getId());
+    }
+
+    @Test @DisplayName("Generate HTML file with Feedback")
+    void shouldGenerateHtmlFileWithFeedback() throws IOException {
+        Person feedbackIssuer = new Person("John", "Doe");
+        FeedbackModel feedback = FeedbackModel.builder()
+                .issuer(feedbackIssuer)
+                .idGenerator((feedbackModel) -> "feedback_single_sign_test")
+                .content("Sample Feedback Content, this is a test feedback for html generation. It should be long enough to test the html generation.")
+                .build();
+
+        // Signatures
+        SignatureInfo signatureInfo = SignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .build();
+        SignatureContext signatureContext = new SignatureContext(feedbackIssuer, signatureInfo);
+
+        SignatureContext finalSignatureContext = signatureContext;
+        Assertions.assertDoesNotThrow(() -> signatureService.performSign(feedback, finalSignatureContext));
+
+        Person issuer = new Person("Muratcan", "Senturk");
+        String testContent = FileUtils.readFileToString(new File("src/test/resources/testContentHtml.txt"));
+        LocalDateTime issueDate = LocalDateTime.of(2020, 1, 1, 12, 0, 0);
+        PetitionModel petitionModelTemp = PetitionModel.builder()
+                .idGenerator((petitionModel) -> "test_petition")
+                .name("Test Petition")
+                .title("Test Petition Title")
+                .addPetitioners(issuer)
+                .content(testContent)
+                .type(PetitionType.REQUEST)
+                .issuedDate(issueDate)
+                .build();
+
+        signatureInfo = ImmutableSignatureInfo.builder()
+                .signatureType(new TextBasedSignature())
+                .signedAt(LocalDateTime.now())
+                .build();
+
+        var signatureContextFeedback = new SignatureContext(feedbackIssuer, signatureInfo);
+        var signedFeedback = signatureService.performSign(feedback, signatureContextFeedback);
+
+        var signatureContextPetition = new SignatureContext(issuer, signatureInfo);
+        var signedPetition = signatureService.performSign(petitionModelTemp, signatureContextPetition);
+
+        var feedbackedPetition = feedbackService.issueFeedback(signedFeedback, signedPetition);
+        assertNotNull(feedbackedPetition.getFeedbacks());
+        assertEquals(1, feedbackedPetition.getFeedbacks().size());
+        assertEquals(feedbackedPetition.getFeedbacks().get(0).getPetitionId(), signedPetition.getId());
+
+        var path = new File("src/test/resources/generatedFeedback.html").toPath();
+        htmlFileGenerationService.generateFile(feedbackedPetition, path);
+
+        var generatedFile = new File("src/test/resources/generatedFeedback.html");
+        Assertions.assertTrue(generatedFile.exists());
     }
 
 }
