@@ -9,7 +9,6 @@ import org.snturk.petition.signature.SignatureContext;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Fills the given HTML string with the given PetitionModel
@@ -65,19 +64,19 @@ public class HTMLTemplateFiller {
         }
 
         // For each issuer, we need to add a signature to list of signatures
-        if (!Objects.requireNonNull(model.getSignatures()).isEmpty()) {
+        if (model.getSignatures() != null && !model.getSignatures().isEmpty()) {
             html = html.replace(" not-signed", " signed");
+            html = html.replace("{{signatures}}", prepareSignatureList(model));
         } else {
             LOGGER.info("Petition is not signed, no signatures found");
         }
-        html = html.replace("{{signatures}}", prepareSignatureList(model));
 
-        if (!Objects.requireNonNull(model.getFeedbacks()).isEmpty()) {
+        if (model.getFeedbacks() != null && !model.getFeedbacks().isEmpty()) {
             html = html.replace(" no-feedback", " has-feedback");
+            html = html.replace("{{feedbacks}}", prepareFeedbackList(model));
         } else {
             LOGGER.info("Petition has no feedback, no feedbacks found");
         }
-        html = html.replace("{{feedbacks}}", prepareFeedbackList(model));
 
         return html;
     }
