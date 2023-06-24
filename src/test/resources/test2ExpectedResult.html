@@ -16,6 +16,7 @@
             flex-direction: column;
             align-items: center;
             margin: 0 auto;
+            font-size: 14px;
         }
 
         .date-field, .id-field {
@@ -75,6 +76,20 @@
             align-items: flex-end;
             justify-content: center;
         }
+
+        .feedbacks {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto 0;
+            text-align: right;
+            font-size: 13px;
+        }
+
+        .feedback .signatures {
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +98,7 @@
     <!-- Heading of Petition -->
     <div class="date-and-id container">
         <span class="id-field">TEST_ID</span>
-        <span class="date-field">2020-01-01T12:00</span>
+        <span class="date-field">01/01/2020 12:00:00</span>
     </div>
     <div class="heading-container">
         <h2>Test Petition Title</h2>
@@ -113,6 +128,13 @@
         </ul>
     </div>
     <!-- End of Signatures -->
+
+    <!-- Feedbacks of Petition -->
+    <div class="feedbacks">
+        <ul class="no-bullet-list">
+            {{feedbacks}}
+        </ul>
+    </div>
 </div>
 </body>
 </html>

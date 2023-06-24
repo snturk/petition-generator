@@ -93,8 +93,10 @@ class HtmlFileGenerationServiceTest {
         // Now we can check the generated file
         var generatedFile = FileUtils.readFileToString(new File("src/test/resources/generated.html"));
         var expectedFile = FileUtils.readFileToString(new File("src/test/resources/test2ExpectedResult.html"));
-        // Compare without indentation
+
+        // Remove the time both from expected and generated file
         expectedFile = expectedFile.replace("{{signedAt}}", signatureInfo.getSignedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        // Compare without indentation
         assertEquals(expectedFile.replaceAll("\\s+", ""), generatedFile.replaceAll("\\s+", ""));
     }
 
