@@ -3,11 +3,18 @@ package org.snturk.petition.model;
 import org.snturk.petition.exceptions.InvalidIssuerException;
 import org.snturk.petition.utils.StringUtils;
 
+/**
+ * Organization is a type of issuer that is a legal entity.
+ */
 public class Organization implements Issuer {
 
     private String organizationName;
     private String organizationType;
 
+    /**
+     * Constructor of Organization
+     * @param organizationName
+     */
     public Organization(String organizationName) {
         if (StringUtils.isNullOrEmpty(organizationName)) {
             throw new InvalidIssuerException("Organization name cannot be null or empty");
@@ -15,6 +22,11 @@ public class Organization implements Issuer {
         this.organizationName = organizationName;
     }
 
+    /**
+     * Constructor of Organization
+     * @param organizationName
+     * @param organizationType
+     */
     public Organization(String organizationName, String organizationType) {
         if (StringUtils.isNullOrEmpty(organizationName)) {
             throw new InvalidIssuerException("Organization name cannot be null or empty");

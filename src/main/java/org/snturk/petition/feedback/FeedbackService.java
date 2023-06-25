@@ -10,9 +10,9 @@ public class FeedbackService {
 
     /**
      * Issues a feedback for a petition and returns the petition with the feedback.
-     * @param feedback
-     * @param petition
-     * @return
+     * @param feedback Feedback to be issued
+     * @param petition Petition that feedback will be added
+     * @return Petition with the feedback
      */
     public PetitionModel issueFeedback(FeedbackModel feedback, PetitionModel petition) {
         validateFeedback(feedback, petition);
