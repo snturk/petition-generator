@@ -8,9 +8,34 @@
     <artifactId>petition-generator</artifactId>
     <name>Petition Generator</name>
     <description>Petition Generation library for Java to generate dynamic petitions</description>
+    <url>https://github.com/snturk/petition-generator</url>
     <version>1.0-SNAPSHOT</version>
-
     <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+        <!-- GNU v3 License-->
+            <name>GNU v3 License</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Muratcan Şentürk</name>
+            <email>mcsnturk@gmail.com</email>
+            <organization>org.github.snturk</organization>
+            <organizationUrl>https://github.com/snturk</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/snturk/petition-generator.git</connection>
+        <developerConnection>scm:git:ssh//github.com/snturk/petition-generator.git</developerConnection>
+        <url>https://github.com/snturk/petition-generator</url>
+    </scm>
+
 
     <dependencies>
         <dependency>
@@ -22,12 +47,6 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -59,6 +78,16 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.20.0</version>
         </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Test Dependencies -->
+
     </dependencies>
 
     <properties>
