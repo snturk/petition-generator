@@ -96,9 +96,34 @@ public class MyPetitionApp {
 }
 ```
 
+Example HTML file can be found on [here](./assets/generated.html)
+
 #### PDF
 
-TODO: Write usage instructions after implementing PDF generation
+Basically, PDF generation is generating a `PetitionModel` in HTML format, and then converting it to PDF format. `PDFFileGenerationService` uses `org.jsoup.nodes.Document` to retrieve the HTML file, and `com.itextpdf.html2pdf.HtmlConverter` to convert the HTML file to PDF format.
+
+```java
+public class MyPetitionApp {
+    
+    PetitionModel petition = ImmutablePetitionModel.builder()
+            .title("Petition Title")
+            .description("Petition Description")
+            .owner(Person.builder()
+                    .name("John")
+                    .surname("Doe")
+                    .build())
+            // More attributes can be added here
+            .build();
+    
+    PDFFileGenerationService pdfFileGenerationService = new PDFFileGenerationService();
+    
+    // Generate the petition in PDF format
+    Path path  = Paths.get("path/to/the/file.pdf");
+    pdfFileGenerationService.generateFile(petition, path);
+}
+```
+
+Example PDF file can be found on [here](./assets/generated.pdf)
 
 #### DOCX
 
@@ -106,11 +131,11 @@ TODO: Write usage instructions after implementing DOCX generation
 
 ## 📝 Features to implement
 
-- [ ] Generate petition in PDF format Issue #5
+- [X] Generate petition in PDF format Issue #5
 - [X] Generate petition in HTML format Issue #6
 - [X] Petition needs to hold signatures Issue #7
 - [X] Petition needs to hold a list of signers with their Issuers Issue #8
-- [ ] Petitions can have a field named `feedbacks` that holds a list of feedbacks with feedback owners Issue #9
+- [X] Petitions can have a field named `feedbacks` that holds a list of feedbacks with feedback owners Issue #9
 - [ ] (Not Sure) A petition can have `linkedPetitions` or `referencedPetitions` to other petitions
 
 ## 🤝 Contributing
