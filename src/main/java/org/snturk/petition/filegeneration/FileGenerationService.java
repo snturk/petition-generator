@@ -11,7 +11,13 @@ import java.nio.file.Path;
  */
 public interface FileGenerationService {
 
+    /**
+     * Prefix for the properties of this service implementation
+     */
     String PREFIX = "petition-generator.file-generation.";
+    /**
+     * Default template path for the file generation
+     */
     String DEFAULT_TEMPLATE_PATH = "src/main/resources/templates/%s/petitionTemplate.%s";
 
     /**
