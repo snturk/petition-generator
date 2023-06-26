@@ -7,7 +7,7 @@
     <name>Petition Generator</name>
     <description>Petition Generation library for Java to generate dynamic petitions</description>
     <url>https://github.com/snturk/petition-generator</url>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -32,7 +32,7 @@
         <connection>scm:git:git://github.com/snturk/petition-generator.git</connection>
         <developerConnection>scm:git:git@github.com:snturk/petition-generator.git</developerConnection>
         <url>https://github.com/snturk/petition-generator</url>
-      <tag>petition-generator-1.0.0</tag>
+      <tag>petition-generator-1.0.1</tag>
   </scm>
 
 
