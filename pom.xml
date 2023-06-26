@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.snturk</groupId>
@@ -9,7 +7,7 @@
     <name>Petition Generator</name>
     <description>Petition Generation library for Java to generate dynamic petitions</description>
     <url>https://github.com/snturk/petition-generator</url>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -34,7 +32,8 @@
         <connection>scm:git:git://github.com/snturk/petition-generator.git</connection>
         <developerConnection>scm:git:ssh//github.com/snturk/petition-generator.git</developerConnection>
         <url>https://github.com/snturk/petition-generator</url>
-    </scm>
+      <tag>petition-generator-1.0.0</tag>
+  </scm>
 
 
     <dependencies>
