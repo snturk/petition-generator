@@ -30,7 +30,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/snturk/petition-generator.git</connection>
-        <developerConnection>scm:git:ssh//github.com/snturk/petition-generator.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:snturk/petition-generator.git</developerConnection>
         <url>https://github.com/snturk/petition-generator</url>
       <tag>petition-generator-1.0.0</tag>
   </scm>
